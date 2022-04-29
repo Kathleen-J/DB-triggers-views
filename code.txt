@@ -1,1 +1,101 @@
-123
+-- create
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR NOT NULL,
+  last_name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL
+);
+
+
+CREATE TABLE games (
+  id SERIAL PRIMARY KEY,
+  name_of_game VARCHAR NOT NULL,
+  player_one INTEGER,
+  player_two INTEGER,
+  winner INTEGER,
+  points INTEGER,
+  FOREIGN KEY (player_one) REFERENCES users (id),
+  FOREIGN KEY (player_two) REFERENCES users (id),
+  FOREIGN KEY (winner) REFERENCES users (id)
+);
+
+
+CREATE TABLE results (
+  winner_id INTEGER,
+  game_id INTEGER,
+  FOREIGN KEY (winner_id) REFERENCES users (id),
+  FOREIGN KEY (game_id) REFERENCES games (id)
+);
+
+
+-- insert users
+
+INSERT INTO users VALUES (1, 'Мария', 'Щеглова', 'Мария@mail.com');
+INSERT INTO users VALUES (2, 'Виктор', 'Романов', 'Виктор@mail.com');
+INSERT INTO users VALUES (3, 'Петр', 'Васильев', 'Петр@mail.com');
+INSERT INTO users VALUES (4, 'Михаил', 'Фомин', 'Михаил@mail.com');
+
+--insert games
+
+INSERT INTO games VALUES (1, 'TicTacToe', 1, 2, 1, 3);
+INSERT INTO games VALUES (2, 'Chess', 1, 2, 1, 10);
+INSERT INTO games VALUES (3, 'Chess', 3, 4, 4, 10);
+INSERT INTO games VALUES (4, 'Black Jack', 3, 2, 2, 8);
+
+--insert results
+
+INSERT INTO results VALUES (1, 1);
+INSERT INTO results VALUES (1, 2);
+INSERT INTO results VALUES (4, 3);
+INSERT INTO results VALUES (2, 4);
+
+
+--results
+
+SELECT * FROM users;
+
+ id | first_name | last_name |      email      
+----+------------+-----------+-----------------
+  1 | Мария      | Щеглова   | Мария@mail.com
+  2 | Виктор     | Романов   | Виктор@mail.com
+  3 | Петр       | Васильев  | Петр@mail.com
+  4 | Михаил     | Фомин     | Михаил@mail.com
+(4 rows)
+
+
+SELECT * FROM games;
+
+ id | name_of_game | player_one | player_two | winner | points 
+----+--------------+------------+------------+--------+--------
+  1 | TicTacToe    |          1 |          2 |      1 |      3
+  2 | Chess        |          1 |          2 |      1 |     10
+  3 | Chess        |          3 |          4 |      4 |     10
+  4 | Black Jack   |          3 |          2 |      2 |      8
+(4 rows)
+
+
+SELECT * FROM results;
+
+ winner_id | game_id 
+-----------+---------
+         1 |       1
+         1 |       2
+         4 |       3
+         2 |       4
+(4 rows)
+
+
+
+
+--check
+
+SELECT users.first_name AS winner, results.game_id FROM users JOIN results ON results.winner_id = users.id;
+
+ winner | game_id 
+--------+---------
+ Мария  |       1
+ Мария  |       2
+ Михаил |       3
+ Виктор |       4
+(4 rows)

@@ -51,7 +51,7 @@ INSERT INTO results VALUES (4, 3);
 INSERT INTO results VALUES (2, 4);
 
 
---results
+-- results
 
 SELECT * FROM users;
 
@@ -88,7 +88,7 @@ SELECT * FROM results;
 
 
 
---check
+-- check
 
 SELECT users.first_name AS winner, results.game_id FROM users JOIN results ON results.winner_id = users.id;
 
@@ -102,22 +102,34 @@ SELECT users.first_name AS winner, results.game_id FROM users JOIN results ON re
 
 
 
---views
 
-SELECT users.first_name, users.last_name, games.name_of_game, games.points FROM games INNER JOIN users ON games.winner = users.id WHERE games.id = 1;
+-- views
 
- first_name | last_name | name_of_game | points 
-------------+-----------+--------------+--------
- Мария      | Щеглова   | TicTacToe    |      3
-(1 row)
+CREATE VIEW statistics_player AS 
+  SELECT users.id, users.first_name, users.last_name, games.name_of_game, games.points 
+  FROM games 
+  INNER JOIN users 
+  ON games.winner = users.id;
 
 
-SELECT users.first_name, users.last_name, games.name_of_game, games.points FROM games INNER JOIN users ON games.winner = users.id;
+1)
+SELECT * FROM statistics_player WHERE id = 1;
 
- first_name | last_name | name_of_game | points 
-------------+-----------+--------------+--------
- Мария      | Щеглова   | TicTacToe    |      3
- Мария      | Щеглова   | Chess        |     10
- Михаил     | Фомин     | Chess        |     10
- Виктор     | Романов   | Black Jack   |      8
+CREATE VIEW
+ id | first_name | last_name | name_of_game | points 
+----+------------+-----------+--------------+--------
+  1 | Мария      | Щеглова   | TicTacToe    |      3
+  1 | Мария      | Щеглова   | Chess        |     10
+(2 rows)
+
+
+2)
+SELECT * FROM statistics_player;
+
+ id | first_name | last_name | name_of_game | points 
+----+------------+-----------+--------------+--------
+  1 | Мария      | Щеглова   | TicTacToe    |      3
+  1 | Мария      | Щеглова   | Chess        |     10
+  4 | Михаил     | Фомин     | Chess        |     10
+  2 | Виктор     | Романов   | Black Jack   |      8
 (4 rows)

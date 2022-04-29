@@ -99,3 +99,25 @@ SELECT users.first_name AS winner, results.game_id FROM users JOIN results ON re
  Михаил |       3
  Виктор |       4
 (4 rows)
+
+
+
+--views
+
+SELECT users.first_name, users.last_name, games.name_of_game, games.points FROM games INNER JOIN users ON games.winner = users.id WHERE games.id = 1;
+
+ first_name | last_name | name_of_game | points 
+------------+-----------+--------------+--------
+ Мария      | Щеглова   | TicTacToe    |      3
+(1 row)
+
+
+SELECT users.first_name, users.last_name, games.name_of_game, games.points FROM games INNER JOIN users ON games.winner = users.id;
+
+ first_name | last_name | name_of_game | points 
+------------+-----------+--------------+--------
+ Мария      | Щеглова   | TicTacToe    |      3
+ Мария      | Щеглова   | Chess        |     10
+ Михаил     | Фомин     | Chess        |     10
+ Виктор     | Романов   | Black Jack   |      8
+(4 rows)
